@@ -1,1 +1,335 @@
+Практичне завдання №1
+#include <stdio.h>
+
+int main() {
+    int t1, t2, t3;
+    double total_speed, time_to_eat_cake;
+
+    // Ввід вхідних даних
+    printf("Введіть час, за який перший гість з'їсть пиріг (у годинах): ");
+    scanf("%d", &t1);
+
+    printf("Введіть час, за який другий гість з'їсть пиріг (у годинах): ");
+    scanf("%d", &t2);
+
+    printf("Введіть час, за який третій гість з'їсть пиріг (у годинах): ");
+    scanf("%d", &t3);
+
+    // Знаходимо обернені значення (швидкості їжі за годину) кожного гостя
+    double speed1 = 1.0 / t1;
+    double speed2 = 1.0 / t2;
+    double speed3 = 1.0 / t3;
+
+    // Обчислюємо загальну швидкість трьох гостей разом
+    total_speed = speed1 + speed2 + speed3;
+
+    // Знаходимо час, який потрібний, щоб з'їсти один пиріг
+    time_to_eat_cake = 1.0 / total_speed;
+
+    // Виведення результату
+    printf("Гостям потрібно %.2f годин(и), щоб з'їсти один пиріг.\n", time_to_eat_cake);
+
+    return 0;
+}
+
+Практичне завдання №2
+
+#include <stdio.h>
+
+// Функція для обчислення НСД двох чисел
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Функція для обчислення НСК двох чисел
+int lcm(int a, int b) {
+    return (a * b) / gcd(a, b);
+}
+
+int main() {
+    int r;
+    printf("Введіть кількість чисел р: ");
+    scanf("%d", &r);
+// Збереження чисел в масиві numbers
+    int numbers[r];
+    printf("Введіть %d натуральних чисел, розділених пробілом: ", r);
+    for (int i = 0; i < r; i++) {
+        scanf("%d", &numbers[i]);
+    }
+
+    int result = numbers[0];
+// Обчислюється НСК   
+    for (int i = 1; i < r; i++) {
+        result = lcm(result, numbers[i]);
+    }
+
+    printf("Найменше спільне кратне заданих чисел: %d\n", result);
+
+    return 0;
+}
+
+Практичне завдання №3
+
+#include <stdio.h>
+
+long long countNumbers(int n) {
+    if (n == 1) return 2; // Для однорозрядних чисел є 2 можливі цифри (5 або 9)
+
+    long long dp[n+1][2];
+    dp[1][0] = 1; // Один розряд - це 5
+    dp[1][1] = 1; // Один розряд - це 9
+
+    for (int i = 2; i <= n; i++) {
+        dp[i][0] = dp[i-1][1]; // Останній розряд 5
+        dp[i][1] = dp[i-1][0] + dp[i-1][1]; // Останній розряд 9 або 5
+    }
+
+    return dp[n][0] + dp[n][1];
+}
+
+int main() {
+    int n;
+    printf("Введіть кількість розрядів n: ");
+    scanf("%d", &n);
+
+    long long result = countNumbers(n);
+    printf("Кількість чисел із %d розрядів: %lld\n", n, result-1);
+
+    return 0;
+}
+
+
+Практичне завдання №4
+
+#include <stdio.h>
+
+int countDivisors(int n) {
+    int count = 0;
+    
+    // Перебір всіх можливих дільників від 1 до n
+    for (int i = 1; i <= n; i++) {
+        if (n % i == n / i) {
+            count++;
+        }
+    }
+    
+    return count;
+}
+
+int main() {
+    int n;
+    printf("Введіть натуральне число n: ");
+    scanf("%d", &n);
+    
+    if (n <= 1 || n >= 150) {
+        printf("Помилка: натуральне число n не задовольняє умову 1 < n < 150.\n");
+        return 1;
+    }
+    
+    int divisors = countDivisors(n);
+    printf("Кількість рівних дільників числа %d: %d\n", n, divisors);
+    
+    return 0;
+}
+
+Практичне завдання №5
+
+#include <stdio.h>
+
+int countSequences(int n) {
+    int dp[n+1];
+    dp[0] = 2; // Початкова кількість послідовностей довжиною 0 - '0' і '1'
+    dp[1] = 3; // Початкова кількість послідовностей довжиною 1 - '00', '01', '10'
+
+    for (int i = 2; i <= n; i++) {
+        dp[i] = (dp[i-1] + dp[i-2]) % 12345; // Обчислення кількості послідовностей
+    }
+
+    return dp[n];
+}
+
+int main() {
+    int n;
+    printf("Введіть довжину послідовності n: ");
+    scanf("%d", &n);
+
+    int result = countSequences(n);
+    printf("Кількість шуканих послідовностей: %d\n", result);
+
+    return 0;
+}
+
+
+Практичне завдання №6
+
+#include <stdio.h>
+#include <math.h>
+//приймає координати початку вектора та  кінця вектора і обчислює довжину вектора
+double calculateVectorLength(int x1, int y1, int x2, int y2) {
+    int deltaX = x2 - x1;
+    int deltaY = y2 - y1;
+    double length = sqrt(deltaX * deltaX + deltaY * deltaY);
+    return length;
+}
+
+int main() {
+    int x1, y1, x2, y2;
+//водимо дані кординат
+    printf("Введіть координати початку вектора (x1, y1): ");
+    scanf("%d %d", &x1, &y1);
+    printf("Введіть координати кінця вектора (x2, y2): ");
+    scanf("%d %d", &x2, &y2);
+//обчислення довжини вектора
+    double vectorLength = calculateVectorLength(x1, y1, x2, y2);
+    //резулбтат з точністю до шести знаків
+    printf("Довжина вектора: %.6f\n", vectorLength);
+
+    return 0;
+}
+
+Практичне завдання №7
+
+#include <stdio.h>
+#include <math.h>
+
+int calculateIntersectionPoints(int x1, int y1, int r1, int x2, int y2, int r2) {
+    double distance = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+    // Визначення відносного положення коліс
+    if (distance > r1 + r2) {
+        // Кола не перетинаються
+        return 0;
+    } else if (distance < fabs(r1 - r2)) {
+        // Одне коло міститься всередині іншого
+        return 0;
+    } else if (distance == 0 && r1 == r2) {
+        // Кола ідентичні
+        return -1;
+    } else if (distance == r1 + r2 || distance == fabs(r1 - r2)) {
+        // Одна точка перетину
+        return 1;
+    } else {
+        // Два точки перетину
+        return 2;
+    }
+}
+
+int main() {
+    int x1, y1, r1, x2, y2, r2;
+    printf("Введіть координати центру та радіус першого кола (x1, y1, r1): ");
+    scanf("%d %d %d", &x1, &y1, &r1);
+    printf("Введіть координати центру та радіус другого кола (x2, y2, r2): ");
+    scanf("%d %d %d", &x2, &y2, &r2);
+
+    int intersectionPoints = calculateIntersectionPoints(x1, y1, r1, x2, y2, r2);
+    if (intersectionPoints == -1) {
+        printf("Кола ідентичні, кількість точок перетину: -1\n");
+    } else {
+        printf("Кількість точок перетину: %d\n", intersectionPoints);
+    }
+
+    return 0;
+}
+
+Практичне завдання №8
+
+#include <stdio.h>
+#include <string.h>
+
+// Функція для обчислення факторіалу числа
+long long factorial(int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+// Функція для обчислення кількості анаграм
+long long countAnagrams(char word[]) {
+    int length = strlen(word);
+
+    // Масив для збереження кількості входжень кожної букви
+    int count[26] = {0};
+
+    // Підрахунок входжень кожної букви
+    for (int i = 0; i < length; i++) {
+        int index = word[i] - 'A';  // Перетворення букви у відповідний індекс
+        count[index]++;
+    }
+
+    // Обчислення кількості анаграм за допомогою формули факторіала
+    long long totalAnagrams = factorial(length);
+    for (int i = 0; i < 26; i++) {
+        if (count[i] > 1) {
+            totalAnagrams /= factorial(count[i]);
+        }
+    }
+
+    return totalAnagrams;
+}
+
+int main() {
+    char word[15];
+    printf("Введіть слово: ");
+    scanf("%s", word);
+
+    long long anagramCount = countAnagrams(word);
+    printf("Кількість можливих анаграм: %lld\n", anagramCount);
+
+    return 0;
+}
+
+Практичне завдання №9*
+
+#include <stdio.h>
+
+int compute_min_steps(int x, int y) {
+    if (x == y) {
+        return 0;  // Немає потреби в кроках, якщо x = y
+    } else if (y - x <= 2) {
+        return y - x;  // Кількість кроків дорівнює різниці між x та y
+    } else {
+        int steps = 2;  // Перші два кроки (x+1 та y-1)
+        int current = x + 2;  // Поточна позиція
+        
+        while (current < y) {
+            steps++;  // Збільшуємо лічильник кроків
+            current += steps % 2 == 0 ? steps : steps - 1;  // Обчислюємо наступну позицію
+        }
+        
+        return steps;
+    }
+}
+
+int main() {
+    int x, y;
+    
+    // Зчитуємо значення x та y з клавіатури
+    printf("Введіть значення x: ");
+    scanf("%d", &x);
+    
+    printf("Введіть значення y: ");
+    scanf("%d", &y);
+    
+    // Перевіряємо вхідні дані
+    if (x >= 0 && y >= 0 && x <= y && y < (1 << 31))  {
+        printf("Некоректні вхідні дані\n");
+        return 0;
+    }
+    
+    // Обчислюємо мінімальну кількість кроків
+    int min_steps = compute_min_steps(x, y);
+    
+    // Виводимо результат
+    printf("Мінімальна кількість кроків: %d\n", min_steps);
+    
+    return 0;
+}
+
 
