@@ -1,1 +1,43 @@
+#include <stdio.h>
 
+int compute_min_steps(int x, int y) {
+    if (x == y) {
+        return 0;  // Немає потреби в кроках, якщо x = y
+    } else if (y - x <= 2) {
+        return y - x;  // Кількість кроків дорівнює різниці між x та y
+    } else {
+        int steps = 2;  // Перші два кроки (x+1 та y-1)
+        int current = x + 2;  // Поточна позиція
+        
+        while (current < y) {
+            steps++;  // Збільшуємо лічильник кроків
+            current += steps % 2 == 0 ? steps : steps - 1;  // Обчислюємо наступну позицію
+        }
+        
+        return steps;
+    }
+}
+int main() {
+    int x, y;
+    
+    // Зчитуємо значення x та y з клавіатури
+    printf("Введіть значення x: ");
+    scanf("%d", &x);
+    
+    printf("Введіть значення y: ");
+    scanf("%d", &y);
+    
+    // Перевіряємо вхідні дані
+    if (x >= 0 && y >= 0 && x <= y && y < (1 << 31))  {
+        printf("Некоректні вхідні дані\n");
+        return 0;
+    }
+    
+    // Обчислюємо мінімальну кількість кроків
+    int min_steps = compute_min_steps(x, y);
+    
+    // Виводимо результат
+    printf("Мінімальна кількість кроків: %d\n", min_steps);
+    
+    return 0;
+}
