@@ -1,1 +1,41 @@
+#include <stdio.h>
+#include <math.h>
 
+int calculateIntersectionPoints(int x1, int y1, int r1, int x2, int y2, int r2) {
+    double distance = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+    // Визначення відносного положення коліс
+    if (distance > r1 + r2) {
+        // Кола не перетинаються
+        return 0;
+    } else if (distance < fabs(r1 - r2)) {
+        // Одне коло міститься всередині іншого
+        return 0;
+    } else if (distance == 0 && r1 == r2) {
+        // Кола ідентичні
+        return -1;
+    } else if (distance == r1 + r2 || distance == fabs(r1 - r2)) {
+        // Одна точка перетину
+        return 1;
+    } else {
+        // Два точки перетину
+        return 2;
+    }
+}
+
+int main() {
+    int x1, y1, r1, x2, y2, r2;
+    printf("Введіть координати центру та радіус першого кола (x1, y1, r1): ");
+    scanf("%d %d %d", &x1, &y1, &r1);
+    printf("Введіть координати центру та радіус другого кола (x2, y2, r2): ");
+    scanf("%d %d %d", &x2, &y2, &r2);
+
+    int intersectionPoints = calculateIntersectionPoints(x1, y1, r1, x2, y2, r2);
+    if (intersectionPoints == -1) {
+        printf("Кола ідентичні, кількість точок перетину: -1\n");
+    } else {
+        printf("Кількість точок перетину: %d\n", intersectionPoints);
+    }
+
+    return 0;
+}
