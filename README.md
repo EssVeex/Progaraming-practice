@@ -1,7 +1,6 @@
 
 # Progaraming-practice
-my library
-I am editing the README file. Adding some more details about the project description.
+Доброго дня , тут зібрані завдання №1-9 з навчальної практики з програмування. приємного перегляду
 
 
 
